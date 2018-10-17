@@ -109,7 +109,7 @@ export class ResourcesDisplayField extends DisplayField {
     const span = document.createElement('span');
     div.classList.add(cssClassCustomOption);
     span.classList.add(...classes);
-    span.textContent = text;
+    span.textContent = '<a href="' + text +'">' + text +'<a/>';
 
     div.appendChild(span);
 

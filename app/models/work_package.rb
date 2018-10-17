@@ -54,6 +54,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :fixed_version, class_name: 'Version', foreign_key: 'fixed_version_id'
   belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
+  belongs_to :kitten, class_name: 'Kitten', foreign_key: 'kitten_id'
 
   has_many :time_entries, dependent: :delete_all
 

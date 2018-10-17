@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,36 +27,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+require 'api/v3/projects/project_collection_representer'
 
-module Queries::Filters::Shared
-  module CustomFields
-    class ListOptional < Base
-      def value_objects
-        case custom_field.field_format
-        when 'version'
-          ::Version.where(id: values)
-        when 'kitten'
-          ::Kitten.where(id:values)
-        when 'list'
-          custom_field.custom_options.where(id: values)
-        else
-          super
+module API
+  module V3
+    module Kittens
+      class ProjectsByKitten API < ::API::OpenProjectAPI
+        resources :projects do
+          before do
+            @projects = @kitten .projects.visible(current_user)
+
+            # Authorization for accessing the kitten  is done in the kitten s
+            # endpoint into which this endpoint is embedded.
+          end
+
+          get do
+            path = api_v3_paths.projects_by_kitten  @kitten .id
+            Projects::ProjectCollectionRepresenter.new(@projects, path, current_user: current_user)
+          end
         end
-      end
-
-      def ar_object_filter?
-        true
-      end
-
-      def type
-        :list_optional
-      end
-
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::CfListOptional
       end
     end
   end

@@ -238,6 +238,16 @@ module API
                                          },
                                          required: false
 
+          schema_with_allowed_collection :kitten,
+                                         value_representer: Kittens::KittenRepresenter,
+                                         link_factory: ->(kitten) {
+                                           {
+                                             href: api_v3_paths.kitten(kitten.id),
+                                             title: kitten.name
+                                           }
+                                         },
+                                         required: false
+
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: ->(priority) {

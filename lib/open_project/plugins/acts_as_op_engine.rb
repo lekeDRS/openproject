@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'open_project/ui/extensible_tabs'
+# require_relative 'open_project/ui/extensible_tabs'
 
 module OpenProject::Plugins
   module ActsAsOpEngine

@@ -41,7 +41,8 @@ module API
           'bool' => 'Boolean',
           'user' => 'User',
           'version' => 'Version',
-          'list' => 'CustomOption'
+          'list' => 'CustomOption',
+          'kitten' => 'Kitten'
         }.freeze
 
         LINK_FORMATS = %w(list user version).freeze
@@ -49,18 +50,21 @@ module API
         PATH_METHOD_MAP = {
           'user' => :user,
           'version' => :version,
-          'list' => :custom_option
+          'list' => :custom_option,
+          'kitten' => :kitten
         }.freeze
 
         NAMESPACE_MAP = {
           'user' => 'users',
           'version' => 'versions',
-          'list' => 'custom_options'
+          'list' => 'custom_options',
+          'kitten' => 'kittens'
         }.freeze
 
         REPRESENTER_MAP = {
           'user' => Users::UserRepresenter,
           'version' => Versions::VersionRepresenter,
+          'kitten' => Kittens::KittenRepresenter,
           'list' => CustomOptions::CustomOptionRepresenter
         }.freeze
 
@@ -118,6 +122,8 @@ module API
             inject_user_schema(custom_field)
           when 'list'
             inject_list_schema(custom_field)
+          when 'kitten'
+            inject_kitten_schema(custom_field)
           else
             inject_basic_schema(custom_field)
           end
@@ -156,6 +162,22 @@ module API
                                                 },
                                                 required: custom_field.is_required
         end
+        
+        def inject_kitten_schema(custom_field)
+          @class.schema_with_allowed_collection property_name(custom_field.id),
+                                                type: 'Kitten',
+                                                name_source: ->(*) { custom_field.name },
+                                                writable: true,
+                                                value_representer: Kittens::KittenRepresenter,
+                                                link_factory: ->(kitten) {
+                                                  {
+                                                    href: api_v3_paths.kitten(kitten.id),
+                                                    title: kitten.name
+                                                  }
+                                                },
+                                                required: custom_field.is_required
+        end
+
 
         def inject_user_schema(custom_field)
           type = custom_field.multi_value? ? "[]User" : "User"

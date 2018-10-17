@@ -14,5 +14,8 @@
   "engines": {
     "node": ">= 6.9.1",
     "npm": ">= 4.0.0"
+  },
+  "devDependencies": {
+    "install-peers": "^1.0.2"
   }
 }

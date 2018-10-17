@@ -94,6 +94,8 @@ module Queries::Filters::Shared
           :text
         when 'date'
           :date
+        when 'kitten'
+          :kitten
         else
           :string
         end

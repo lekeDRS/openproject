@@ -132,6 +132,8 @@ class CustomField < ActiveRecord::Base
       possible_user_values_options(obj)
     when 'version'
       possible_version_values_options(obj)
+    when 'kitten'
+      possible_kitten_values_options(obj)
     when 'list'
       possible_list_values_options
     else
@@ -146,7 +148,7 @@ class CustomField < ActiveRecord::Base
   #        You MUST NOT pass a customizable if this CF has any other format
   def possible_values(obj = nil)
     case field_format
-    when 'user', 'version'
+    when 'user', 'version' ,'kitten'
       possible_values_options(obj).map(&:last)
     when 'list'
       custom_options
@@ -187,7 +189,7 @@ class CustomField < ActiveRecord::Base
         casted = value.to_i
       when 'float'
         casted = value.to_f
-      when 'user', 'version'
+      when 'user', 'version','kitten'
         casted = (value.blank? ? nil : field_format.classify.constantize.find_by(id: value.to_i))
       end
     end
@@ -278,6 +280,15 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def possible_kitten_values_options(obj)
+    if project
+      project.kittens
+    else
+      Kittens.systemwide
+    end
+  end
+end
+
   def possible_list_values_options
     possible_values.map { |option| [option.value, option.id.to_s] }
   end
@@ -303,4 +314,4 @@ class CustomField < ActiveRecord::Base
       .sort
       .map { |u| [u.name, u.id.to_s] }
   end
-end
+

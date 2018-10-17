@@ -96,7 +96,7 @@ module Queries::Filters::Shared::CustomFieldFilter
       case custom_field.field_format
       when 'user'
         :User
-      when 'list', 'version'
+      when 'list', 'version' ,'kitten'
         :ListOptional
       when 'bool'
         :Bool

@@ -35,9 +35,14 @@ OpenProject::CustomFieldFormat.map do |fields|
   fields.register OpenProject::CustomFieldFormat.new('text',
                                                      label: :label_text,
                                                      order: 2)
+  fields.register OpenProject::CustomFieldFormat.new('kitten',
+                                                    label: Proc.new { Kitten.model_name.human },
+                                                     edit_as: 'list',
+                                                     order: 3,
+                                                     formatter: 'CustomValue::KittenStrategy')                                                  
   fields.register OpenProject::CustomFieldFormat.new('int',
                                                      label: :label_integer,
-                                                     order: 3,
+                                                     order: 10,
                                                      formatter: 'CustomValue::IntStrategy')
   fields.register OpenProject::CustomFieldFormat.new('float',
                                                      label: :label_float,
@@ -68,5 +73,5 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                               Version Project),
                                                      edit_as: 'list',
                                                      order: 9,
-                                                     formatter: 'CustomValue::VersionStrategy')
+                                                     formatter: 'CustomValue::VersionStrategy')                                           
 end

@@ -277,6 +277,7 @@ end
 
 group :opf_plugins do
   gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem "openproject-proto_plugin", :path => '../plugins/openproject-proto_plugin'	
 end
 
 group :docker, optional: true do

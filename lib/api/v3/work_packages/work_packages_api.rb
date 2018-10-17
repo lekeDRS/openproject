@@ -75,7 +75,6 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-
               authorize(:view_work_packages, context: @work_package.project) do
                 raise API::Errors::NotFound.new
               end

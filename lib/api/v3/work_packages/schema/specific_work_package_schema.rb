@@ -69,6 +69,8 @@ module API
               custom_field.possible_values
             when 'version'
               assignable_values(:version, nil)
+            when 'kitten'
+              assignable_values(:kitten, nil)
             end
           end
 

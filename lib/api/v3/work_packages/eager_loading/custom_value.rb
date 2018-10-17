@@ -61,6 +61,8 @@ module API
                                version_values(cv.value)
                              when 'list'
                                list_values(cv.value)
+                             when 'kitten'
+                               list_values(cv.value)
                              end
 
               cv.value = loaded_value if loaded_value
@@ -96,6 +98,12 @@ module API
 
             @user_values[id.to_i]
           end
+
+          def kitten_values(id)
+            @kitten_values ||= eager_load_values 'kitten', Kitten 
+            @kitten_values[id.to_i]
+          end
+
 
           def version_values(id)
             @version_values ||= eager_load_values 'version', Version

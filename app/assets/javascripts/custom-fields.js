@@ -106,6 +106,11 @@
           deactivate(possibleValues);
           hide(lengthField, regexpField, defaultValueFields);
           unsearchable();
+        case 'kitten':
+          deactivate(defaultValueFields);
+          deactivate(possibleValues);
+          hide(lengthField, regexpField, defaultValueFields);
+          unsearchable();
           break;
         default:
           show(lengthField, regexpField, searchable);

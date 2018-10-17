@@ -57,6 +57,8 @@ module CustomField::OrderStatements
       ]
     when 'version'
       [order_by_version_sql('name')]
+    when 'kitten'
+      [order_by_kitten_sql('name')]
     end
   end
 
@@ -112,6 +114,14 @@ module CustomField::OrderStatements
     <<-SQL
     (SELECT #{column} version_cv_#{column} FROM #{Version.table_name} cv_version
      WHERE cv_version.id = #{select_custom_value_as_decimal}
+     LIMIT 1)
+    SQL
+  end
+
+  def order_by_kitten_sql(column)
+    <<-SQL
+    (SELECT #{column} kitten_cv_#{column} FROM #{Kitten.table_name} cv_kitten
+     WHERE cv_kitten.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
   end

@@ -44,6 +44,7 @@ module CustomFieldsHelper
 
   # Return custom field html tag corresponding to its format
   def custom_field_tag(name, custom_value)
+
     custom_field = custom_value.custom_field
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
@@ -51,7 +52,7 @@ module CustomFieldsHelper
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
 
     tag = case field_format.try(:edit_as)
-          when 'date'
+          when 'date' , 
             styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10)
           when 'text'
             styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3)
@@ -59,7 +60,8 @@ module CustomFieldsHelper
             hidden_tag = hidden_field_tag(field_name, '0')
             checkbox_tag = styled_check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
             hidden_tag + checkbox_tag
-          when 'list'
+          when 'list', 'kitten'
+           
             blank_option = if custom_field.is_required? && custom_field.default_value.blank?
                              "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>"
                            elsif custom_field.is_required? && !custom_field.default_value.blank?
@@ -112,11 +114,12 @@ module CustomFieldsHelper
   end
 
   def custom_field_tag_for_bulk_edit(name, custom_field, project=nil)
+    
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
-    when 'date'
+    when 'date' 
       styled_text_field_tag(field_name, '', id: field_id, size: 10, class: '-augmented-datepicker')
     when 'text'
       styled_text_area_tag(field_name, '', id: field_id, rows: 3, with_text_formatting: true)
@@ -125,6 +128,7 @@ module CustomFieldsHelper
                                                         [l(:general_text_yes), '1'],
                                                         [l(:general_text_no), '0']]), id: field_id)
     when 'list'
+
       styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values_options(project)), id: field_id)
     else
       styled_text_field_tag(field_name, '', id: field_id)

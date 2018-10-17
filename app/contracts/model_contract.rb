@@ -102,7 +102,6 @@ class ModelContract < Reform::Contract
   def validate
     readonly_attributes_unchanged
     run_attribute_validations
-
     super
     model.valid?
 

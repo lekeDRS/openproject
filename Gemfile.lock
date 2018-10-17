@@ -57,6 +57,12 @@ GIT
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
 
+PATH
+  remote: ../plugins/openproject-proto_plugin
+  specs:
+    openproject-proto_plugin (7.1.0)
+      rails (~> 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -674,6 +680,7 @@ DEPENDENCIES
   oj (~> 3.5.0)
   okcomputer (~> 1.16.0)
   omniauth!
+  openproject-proto_plugin!
   openproject-token (~> 1.0.1)
   openproject-translations!
   parallel_tests (~> 2.21.3)
@@ -746,4 +753,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.3
+   1.16.4

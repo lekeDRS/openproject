@@ -28,36 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+require 'api/v3/versions/version_collection_representer'
 
-module Queries::Filters::Shared
-  module CustomFields
-    class ListOptional < Base
-      def value_objects
-        case custom_field.field_format
-        when 'version'
-          ::Version.where(id: values)
-        when 'kitten'
-          ::Kitten.where(id:values)
-        when 'list'
-          custom_field.custom_options.where(id: values)
-        else
-          super
+module API
+  module V3
+    module Versions
+      class VersionsByProjectAPI < ::API::OpenProjectAPI
+        resources :versions do
+          before do
+            @versions = @project.shared_versions
+
+            authorize_any %i(view_work_packages manage_versions), projects: @project
+          end
+
+          get do
+            ::API::V3::Utilities::ParamsToQuery.collection_response(@versions,
+                                                                    current_user,
+                                                                    params.except('id'),
+                                                                    self_link: api_v3_paths.versions_by_project(@project.id))
+          end
         end
-      end
-
-      def ar_object_filter?
-        true
-      end
-
-      def type
-        :list_optional
-      end
-
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::CfListOptional
       end
     end
   end
